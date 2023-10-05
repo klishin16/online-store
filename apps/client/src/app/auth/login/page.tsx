@@ -6,6 +6,7 @@ import { useAppDispatch, useTypedSelector } from "@/hooks";
 import styled from "@emotion/styled";
 import { login } from "@/redux/features/auth.slice";
 import { ILoginPayload } from "@/types";
+import { useSearchParams } from 'next/navigation'
 import Link from "next/link";
 
 
@@ -32,12 +33,14 @@ interface LoginFormData {
 const LoginPage = () => {
     const { isLoading } = useTypedSelector(state => state.auth);
     const dispatch = useAppDispatch()
+    const searchParams = useSearchParams()
 
     const submitForm = (data: LoginFormData) => {
         console.log(data)
         const loginDto: ILoginPayload = {
             email: data.email,
-            password: data.password
+            password: data.password,
+            redirectTo: searchParams.get('continue') ?? null
         }
 
         dispatch(login(loginDto))

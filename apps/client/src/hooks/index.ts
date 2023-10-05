@@ -9,3 +9,4 @@ export * from './useModalForm';
 export * from './useRequest';
 export * from './useTypedSelector';
 export * from './useUpload';
+export * from './useAuthSession';
