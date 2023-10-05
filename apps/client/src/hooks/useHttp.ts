@@ -1,5 +1,5 @@
 'use client'
-import { BASE_BACKEND_URL } from "@/constants"
+import { BACKEND_URL } from "@/constants"
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { message } from "antd";
@@ -23,7 +23,7 @@ export const useHttp = () => {
 
             const response = await axios({
                 method,
-                url: BASE_BACKEND_URL + url,
+                url: BACKEND_URL + url,
                 data: body,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',

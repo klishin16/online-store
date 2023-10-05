@@ -1,4 +1,4 @@
-import {BASE_BACKEND_URL} from "@/constants";
+import {BACKEND_URL} from "@/constants";
 import { EHttpMethods } from "@/hooks";
 import {AxiosRequestConfig} from "axios";
 
@@ -11,7 +11,7 @@ export class RequestBuilder<RequestData> {
 
     constructor(url: string, method?: EHttpMethods, data?: RequestData | null, headers?: Object) {
         this.url = url;
-        this._baseUrl = BASE_BACKEND_URL;
+        this._baseUrl = BACKEND_URL;
         this._method = method ? method : EHttpMethods.GET;
         this._headers = headers ? headers : {
             'Content-Type': 'application/json;charset=utf-8',

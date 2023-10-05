@@ -15,7 +15,7 @@ export const register = createAsyncThunk(
             const response = await AuthService.register(email, password);
             thunkAPI.dispatch(addNotification({
                 title: 'Registration',
-                message: response.data.message,
+                message: 'Successfully registered',
                 type: 'success',
             }));
             return response.data;

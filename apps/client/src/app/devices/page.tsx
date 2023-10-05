@@ -4,7 +4,8 @@ import { Button, Image, Row, Spin, Typography } from "antd";
 import { useAppDispatch, useTypedSelector } from "@/hooks";
 import styled from "@emotion/styled";
 import { devicesActions } from "@/redux/features/devices.slice";
-import { BASE_BACKEND_URL, TOKEN_KEY } from "@/constants";
+import { TOKEN_KEY } from "@/constants";
+import { usePathname } from "next/navigation";
 
 
 const DevicesPageContainer = styled.div`
@@ -39,6 +40,7 @@ const DeviceCard = styled.div`
 const { Text, Title } = Typography
 
 const DevicesPage = () => {
+    const pathname = usePathname()
     const { devices, isLoading } = useTypedSelector(state => state.devices);
     const dispatch = useAppDispatch();
 
@@ -52,7 +54,7 @@ const DevicesPage = () => {
             <DeviceCard key={device.id}>
                 <Image
                     width={ '100%' }
-                    src={ BASE_BACKEND_URL + '/' + device.image }
+                    src={ pathname + '/' + device.image }
                 />
                 <Title level={4}>
                     { device.name }
