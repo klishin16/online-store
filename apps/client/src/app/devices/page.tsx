@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect } from 'react';
-import { Button, Card, Image, Layout, Row, Spin, Typography } from "antd";
+import { Button, Image, Row, Spin, Typography } from "antd";
 import { useAppDispatch, useTypedSelector } from "@/hooks";
 import styled from "@emotion/styled";
 import { devicesActions } from "@/redux/features/devices.slice";
