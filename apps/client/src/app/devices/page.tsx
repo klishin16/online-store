@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { Button, Card, Image, Layout, Row, Spin, Typography } from "antd";
 import { useAppDispatch, useTypedSelector } from "@/hooks";
 import styled from "@emotion/styled";
-// import { DeviceCard } from "@/app/components";
 import { devicesActions } from "@/redux/features/devices.slice";
 import { BASE_BACKEND_URL, TOKEN_KEY } from "@/constants";
 
@@ -50,7 +49,7 @@ const DevicesPage = () => {
 
     const devicesCards = devices.map(device => {
         return (
-            <DeviceCard>
+            <DeviceCard key={device.id}>
                 <Image
                     width={ '100%' }
                     src={ BASE_BACKEND_URL + '/' + device.image }

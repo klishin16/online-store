@@ -1,8 +1,8 @@
 'use client'
-import useRequest from "./useRequest";
 import axios from "axios";
 import {useTypedSelector} from "./useTypedSelector";
-import {RequestBuilder} from "../functions/request-builder";
+import {RequestBuilder} from "@/functions";
+import { useRequest } from "@/hooks";
 
 
 export enum EHttpMethods {

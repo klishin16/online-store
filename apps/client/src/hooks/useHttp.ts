@@ -1,9 +1,9 @@
 'use client'
-import {BASE_BACKEND_URL} from "@/constants"
+import { BASE_BACKEND_URL } from "@/constants"
 import axios from "axios";
-import {useCallback, useState} from "react";
-import {message} from "antd";
-import {HttpMethods} from "./useApi";
+import { useCallback, useState } from "react";
+import { message } from "antd";
+import { EHttpMethods } from "./useApi";
 
 
 // export type useHttpResp = {
@@ -18,7 +18,7 @@ export const useHttp = () => {
     const [error, setError] = useState("")
 
 
-    const request = useCallback(async function <Body>(url: string, method: HttpMethods, body?: Body, headers = {}) {
+    const request = useCallback(async function <Body>(url: string, method: EHttpMethods, body?: Body, headers = {}) {
         try {
 
             const response = await axios({
@@ -46,13 +46,13 @@ export const useHttp = () => {
             setError(e.name)
         }
     }, [])
-    return {loading, error, request}
+    return { loading, error, request }
 }
 
 export const useHttpWithErrorHandle = () => {
-    const {error, ...rest} = useHttp()
+    const { error, ...rest } = useHttp()
 
     if (error.length > 0) message.error(error)
-    return {...rest}
+    return { ...rest }
 }
 

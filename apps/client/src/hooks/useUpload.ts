@@ -1,7 +1,7 @@
 'use client'
 import {useState} from "react";
 
-export default function () {
+export const useUpload = () => {
     const [files, setFiles] = useState<any[]>([]);
 
     const beforeUpload = (file: any) => {

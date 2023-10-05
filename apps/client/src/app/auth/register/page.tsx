@@ -23,7 +23,7 @@ const RegistrationCard = styled(Card)`
 `
 
 const RegisterPage = () => {
-    const { isLoading, error } = useTypedSelector(state => state.auth);
+    const { isLoading } = useTypedSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
     const submitForm = (data: IRegisterPayload) => {

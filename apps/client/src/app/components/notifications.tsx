@@ -20,7 +20,7 @@ export const Notifications = () => {
         if (notifications.length) {
             openNotification(notifications[notifications.length - 1])
         }
-    }, [notifications])
+    }, [notifications, openNotification])
 
     return <>{contextHolder}</>
 }

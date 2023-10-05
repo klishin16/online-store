@@ -1,1 +1,1 @@
-export * from './device-card';
+export * from './devices-table-view';

@@ -11,10 +11,8 @@ import { Content } from "antd/es/layout/layout";
 import { AppColors } from "@/constants";
 import { usePathname } from "next/navigation";
 
-interface IAdminProductsViewProps extends IAdminViewProps {
-}
 
-const DevicesAdminPage: React.FC<IAdminProductsViewProps> = ({ breadcrumbPath }) => {
+const DevicesAdminPage = () => {
     const [devices, loading, error, refreshDevices] = useGetApi<IDevice[]>('/devices', true)
     const current_path = usePathname()
 
@@ -42,14 +40,6 @@ const DevicesAdminPage: React.FC<IAdminProductsViewProps> = ({ breadcrumbPath })
             title: 'sale'
         }
     ])
-
-    // const currentBreadcrumbPath: IBreadcrumbRoute[] = [
-    //     ...breadcrumbPath,
-    //     {
-    //         path: '/devices',
-    //         breadcrumbName: 'Devices'
-    //     }
-    // ]
 
 
     return (

@@ -1,7 +1,7 @@
 'use client'
 import {useState} from "react";
 
-export default function useInput<Value>(initialValue: Value) {
+export const useInput = <Value>(initialValue: Value) => {
     const [value, setValue] = useState(initialValue);
 
     const onChange = (e: any) => {
