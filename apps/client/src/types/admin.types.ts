@@ -10,13 +10,14 @@ export interface IAdminViewProps {
 }
 
 export enum EAdminViews {
-    SETTINGS = "/settings",
-    USERS = "/users",
-    STATISTICS = "/statistics",
-    DEVICES = "/devices",
-    CATEGORIES = "/categories",
-    BRANDS = "/brands",
-    OTHER = "/other"
+    SETTINGS = "/admin/settings",
+    USERS = "/admin/users",
+    STATISTICS = "/admin/statistics",
+    DEVICES = "/admin/devices",
+    CATEGORIES = "/admin/categories",
+    BRANDS = "/admin/brands",
+    FILES = "/admin/files",
+    OTHER = "/admin/other"
 }
 
 export interface ISidebarItem {

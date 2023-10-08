@@ -4,43 +4,53 @@ import { Button, Image, Row, Spin, Typography } from "antd";
 import { useAppDispatch, useTypedSelector } from "@/hooks";
 import styled from "@emotion/styled";
 import { devicesActions } from "@/redux/features/devices.slice";
-import { TOKEN_KEY } from "@/constants";
-import { usePathname } from "next/navigation";
+import { BACKEND_URL, TOKEN_KEY } from "@/constants";
+import DevicesFilter from "@/app/components/devices/devices-filter";
 
 
-const DevicesPageContainer = styled.div`
+const DevicesPageContainer = styled("div")`
   width: 100vw;
-  height: 100vh;
+  padding-top: 72px;
+  padding-bottom: 10px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 16px;
 `
 
 const DeviceCardsContainer = styled.div`
-  width: 80vw;
-  height: 90vh;
-  background-color: rgb(255, 255, 255);
+  flex-basis: 300px;
+  flex-grow: 1;
+  align-self: flex-start;
+  max-width: 80%;
+  padding: 14px;
   border-radius: 8px;
   
   display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 25px;
+  grid-template-columns: repeat(auto-fit, 230px);
   justify-items: center;
-  align-items: center;
+  
+  height: 100%;
+  overflow-y: auto;
 `
 const DeviceCard = styled.div`
+  width: 100%;
+  
   padding: 12px;
+  background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 20px 0;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   margin: 5px;
   position: relative;
 `
 
-const { Text, Title } = Typography
+const { Title } = Typography
 
 const DevicesPage = () => {
-    const pathname = usePathname()
     const { devices, isLoading } = useTypedSelector(state => state.devices);
     const dispatch = useAppDispatch();
 
@@ -54,7 +64,7 @@ const DevicesPage = () => {
             <DeviceCard key={device.id}>
                 <Image
                     width={ '100%' }
-                    src={ pathname + '/' + device.image }
+                    src={ BACKEND_URL + 'files/' + device.image_url }
                 />
                 <Title level={4}>
                     { device.name }
@@ -95,27 +105,17 @@ const DevicesPage = () => {
     if (isLoading) {
         console.log('here')
         return (
-            <DevicesPageContainer>
+            <DevicesPageContainer className='devices-page-container'>
                 <Spin/>
             </DevicesPageContainer>
         )
     }
 
     return (
-        <DevicesPageContainer>
-            {/*{ category &&*/ }
-            {/*    <Card size={ "small" } style={ { marginBottom: '1vh' } }>*/ }
-            {/*        <Row justify={ "space-between" }>*/ }
-            {/*            <Title style={ { fontWeight: "lighter", marginBottom: '0' } } level={ 2 }>Выбранная*/ }
-            {/*                категория: <i>{ category.name }</i></Title>*/ }
-            {/*            <Button onClick={ () => setCategory(undefined) } danger>Reset</Button>*/ }
-            {/*        </Row>*/ }
-            {/*    </Card>*/ }
-            {/*}*/ }
+        <DevicesPageContainer className='devices-page-container'>
+            <DevicesFilter />
 
-            {/*<DeviceFilter/>*/ }
-
-            <DeviceCardsContainer>
+            <DeviceCardsContainer className='devices-cards-container'>
                 { devicesCards }
             </DeviceCardsContainer>
         </DevicesPageContainer>

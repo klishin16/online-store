@@ -4,6 +4,7 @@ import authReducer from "./features/auth.slice"
 import notificationsSlice from "@/redux/features/notifications.slice";
 import { devicesReducer } from "@/redux/features/devices.slice";
 import { basketReducer } from "@/redux/features/basket.slice";
+import { settingsReducer } from "@/redux/features/settings.slice";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         notifications: notificationsSlice,
         devices: devicesReducer,
         basket: basketReducer,
+        settings: settingsReducer,
     },
     devTools: process.env.NODE_ENV !== "production",
 });

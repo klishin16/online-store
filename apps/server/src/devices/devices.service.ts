@@ -10,11 +10,11 @@ export class DevicesService {
   constructor(@InjectRepository(Device) private readonly deviceRepository: Repository<Device>) {
   }
   create(createDeviceDto: CreateDeviceDto) {
-    return 'This action adds a new device';
+    return this.deviceRepository.save({ ...createDeviceDto });
   }
 
   findAll() {
-    return this.deviceRepository.find();
+    return this.deviceRepository.find({ relations: ['brand'] });
   }
 
   findOne(id: number) {

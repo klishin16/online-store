@@ -1,7 +1,7 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
-import {Logger} from "@nestjs/common";
+import { Logger, ValidationPipe } from "@nestjs/common";
 
 const logger = new Logger("Main",)
 async function bootstrap() {
@@ -20,7 +20,7 @@ async function bootstrap() {
         allowedHeaders: "*",
         credentials: true,
     })
-    // app.useGlobalPipes(new ValidationPipe())
+    app.useGlobalPipes(new ValidationPipe())
 
     await app.listen(process.env.PORT || 4000);
 }

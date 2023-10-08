@@ -14,6 +14,7 @@ const RegisterPageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(180deg, #a0d7e7, #6c5dd3);
 `
 
 const RegistrationCard = styled(Card)`

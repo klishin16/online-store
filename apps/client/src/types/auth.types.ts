@@ -15,7 +15,6 @@ export interface IRegisterPayload {
 export interface ILoginPayload {
     email: string;
     password: string;
-    redirectTo: string | null;
 }
 
 export interface ILoginResponse {

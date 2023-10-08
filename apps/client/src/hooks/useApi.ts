@@ -2,7 +2,7 @@
 import axios from "axios";
 import {useTypedSelector} from "./useTypedSelector";
 import {RequestBuilder} from "@/functions";
-import { useRequest } from "@/hooks";
+import { useRequestDeprecated } from "@/hooks";
 
 
 export enum EHttpMethods {
@@ -16,7 +16,7 @@ export function useGetApi<ResponseData> (url: string, isNeedAuth = true, execute
     const { token } = useTypedSelector(state => state.auth)
     const requestBuilder = new RequestBuilder(url).includeToken(token!)
 
-    const [data, loading, error, execution] = useRequest<ResponseData>(() => axios(requestBuilder.build()), execute)
+    const [data, loading, error, execution] = useRequestDeprecated<ResponseData>(() => axios(requestBuilder.build()), execute)
 
     return [data, loading, error, execution]
 }
@@ -27,7 +27,7 @@ export function usePOSTApi<ReqData, ResponseData> (url: string, isNeedAuth = tru
         .includeToken(useTypedSelector(state => state.auth).token!)
         .addData(reqData)
 
-    return useRequest<ResponseData>(() => axios(requestBuilder.build()))
+    return useRequestDeprecated<ResponseData>(() => axios(requestBuilder.build()))
 }
 
 // export function usePATCHApi<RequestData, ResponseData> (url: string, isNeedAuth = true): [ResponseData | null, boolean, string, Function] {
@@ -46,5 +46,5 @@ export function useDELETEApi<ResponseData> (url: string, isNeedAuth = true, isEx
         .setMethod(EHttpMethods.DELETE)
         .includeToken(useTypedSelector(state => state.auth).token!)
 
-    return useRequest<ResponseData>(() => axios(requestBuilder.build()), isExecute)
+    return useRequestDeprecated<ResponseData>(() => axios(requestBuilder.build()), isExecute)
 }

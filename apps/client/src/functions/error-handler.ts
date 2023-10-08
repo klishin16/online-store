@@ -19,8 +19,11 @@ export const errorHandler = (error: unknown): string => {
             if (statusCode === 404) {
                 return 'The requested resource does not exist or has been deleted';
             } else if (statusCode === 401) {
+                // ошибка авторизации
                 return 'Please login to access this resource';
-                // redirect user to login
+            } else if (statusCode === 400) {
+                // ошибка валидации на сервере или исполнения запроса
+                return response.data.message[0];
             }
         } else if (request) {
             //The request was made but no response was received, `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in Node.js

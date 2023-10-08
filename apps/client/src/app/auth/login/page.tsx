@@ -6,8 +6,9 @@ import { useAppDispatch, useTypedSelector } from "@/hooks";
 import styled from "@emotion/styled";
 import { login } from "@/redux/features/auth.slice";
 import { ILoginPayload } from "@/types";
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from "next/link";
+import { ERoutes } from "@/constants";
 
 
 const LoginPageContainer = styled.div`
@@ -16,6 +17,7 @@ const LoginPageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(180deg, #a0d7e7, #6c5dd3);
 `
 
 const LoginCard = styled(Card)`
@@ -34,16 +36,18 @@ const LoginPage = () => {
     const { isLoading } = useTypedSelector(state => state.auth);
     const dispatch = useAppDispatch()
     const searchParams = useSearchParams()
+    const router = useRouter()
 
     const submitForm = (data: LoginFormData) => {
         console.log(data)
         const loginDto: ILoginPayload = {
             email: data.email,
             password: data.password,
-            redirectTo: searchParams.get('continue') ?? null
         }
 
-        dispatch(login(loginDto))
+        dispatch(login(loginDto)).then(() => {
+            router.push(searchParams.get('continue') ?? ERoutes.DEVICES)
+        })
     };
 
     return (

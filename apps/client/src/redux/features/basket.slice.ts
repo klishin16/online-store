@@ -3,18 +3,18 @@ import { BasketService } from "@/services";
 import { addNotification } from "@/redux/features/notifications.slice";
 import { IBasketState } from "@/types/basket.types";
 import { IUser } from "@/models";
-import { RootState } from "@/redux";
+import { errorHandler } from "@/functions/error-handler";
 
 
 const initialState: IBasketState = {
-    isLoading: false
+    isLoading: false,
+    purchases: null
 }
 
 const loadBasket = createAsyncThunk(
     "basket/load",
     async (user: IUser, thunkAPI) => {
         try {
-            // const {  } = thunkAPI.getState() as RootState;
             const basket = user.basket ?
                 await BasketService.getBasket(user?.basket?.id!) :
                 await BasketService.createBasket(user?.id!)
@@ -25,21 +25,15 @@ const loadBasket = createAsyncThunk(
                 type: 'success',
             }));
             return basket;
-        } catch (error: any) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-
+        } catch (error) {
             thunkAPI.dispatch(
                 addNotification({
                     title: 'Basket loading error',
-                    message,
+                    message: errorHandler(error),
                     type: 'error'
                 })
             );
+
             return thunkAPI.rejectWithValue('some value (-_-)');
         }
     }

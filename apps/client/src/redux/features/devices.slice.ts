@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IDevicesState } from "@/types/devices.types";
-import { register } from "@/redux/features/auth.slice";
 import { addNotification } from "@/redux/features/notifications.slice";
 import { DevicesService } from "@/services";
 import { errorHandler } from "@/functions/error-handler";
@@ -35,6 +34,31 @@ const fetchDevices = createAsyncThunk(
         }
     })
 
+const createDevice = createAsyncThunk(
+    "devices/create",
+    async ({ token, payload }: { token: string; payload: any }, thunkAPI) => {
+        console.log('createDevice')
+        try {
+            const devices = await DevicesService.create(token, payload);
+            console.log('devices', devices)
+            thunkAPI.dispatch(addNotification({
+                title: 'Devices',
+                message: 'Device created successfully',
+                type: 'success',
+            }));
+            return devices;
+        } catch (error) {
+            thunkAPI.dispatch(
+                addNotification({
+                    title: 'Device creation error',
+                    message: errorHandler(error),
+                    type: 'error'
+                })
+            );
+            return thunkAPI.rejectWithValue('some value (-_-)');
+        }
+    })
+
 const devicesSlice = createSlice({
     name: 'devices',
     initialState,
@@ -59,5 +83,6 @@ const devicesSlice = createSlice({
 
 export const devicesReducer = devicesSlice.reducer;
 export const devicesActions = {
-    fetchDevices
+    fetchDevices,
+    createDevice
 }

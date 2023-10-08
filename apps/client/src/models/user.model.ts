@@ -1,12 +1,18 @@
-import {IRole} from "./role.model";
 import {IBasket} from "./basket.model";
 
+
+export enum EUserRoles {
+    USER = 'user',
+    EDITOR = 'editor',
+    ADMIN = 'admin',
+}
+
 export interface IUser {
-    id?: number
+    id: number
     email: string;
     password: string;
     basket?: IBasket
-    roles: IRole[]
+    role: EUserRoles
 //    TODO определиться с полями (см ниже)
 }
 
@@ -26,7 +32,13 @@ export interface IUserFull {
     password: string,
     banned: boolean,
     banReason: string,
-    roles: IRole[],
+    role: EUserRoles,
     favoriteDevices: Object[],
     basket?: IBasket
+}
+
+export interface IUserCreationDto {
+    email: string;
+    password: string;
+    role: EUserRoles;
 }

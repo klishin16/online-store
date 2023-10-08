@@ -1,8 +1,14 @@
 import {Column, Entity, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
-import {Role} from "../../roles/entities/role.entity";
 import {Device} from "../../devices/entities/device.entity";
 import {Basket} from "../../baskets/entities/basket.entity";
+
+
+export enum EUserRoles {
+    USER = 'user',
+    EDITOR = 'editor',
+    ADMIN = 'admin',
+}
 
 @Entity()
 export class User {
@@ -26,9 +32,12 @@ export class User {
     @Column({ nullable: true })
     banReason: string;
 
-    @ManyToMany(() => Role)
-    @JoinTable()
-    roles: Role[];
+    @Column({
+        type: 'enum',
+        enum: EUserRoles,
+        default: 'user'
+    })
+    role: EUserRoles;
 
     @ManyToMany(() => Device)
     @JoinTable()

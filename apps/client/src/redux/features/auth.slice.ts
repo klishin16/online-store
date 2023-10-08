@@ -1,11 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthService } from "@/services";
-import { setMessage } from "@/redux/features/message.slice";
 import { IAuthState, ILoginPayload, IRegisterPayload } from "@/types";
 import { addNotification } from "@/redux/features/notifications.slice";
 import { TOKEN_KEY } from "@/constants";
-import axios, { AxiosError } from "axios";
 import { errorHandler } from "@/functions/error-handler";
+import { IUser } from "@/models";
 
 
 export const register = createAsyncThunk(
@@ -71,7 +70,12 @@ const initialState: IAuthState = {
 const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        setUser: (state, action: PayloadAction<IUser>) => ({
+            ...state,
+            user: action.payload
+        }),
+    },
     extraReducers: builder => {
         builder
             .addCase(register.pending, state => {
@@ -94,6 +98,7 @@ const authSlice = createSlice({
                 // Login succeeded
                 state.token = action.payload;
                 localStorage.setItem(TOKEN_KEY, action.payload);
+                state.isAuthenticated = true;
                 state.isLoading = false;
             })
             .addCase(login.rejected, (state, action) => {
@@ -103,5 +108,5 @@ const authSlice = createSlice({
     }
 });
 
-export const authActions = { register };
+export const authActions = { register, ...authSlice.actions };
 export default authSlice.reducer;

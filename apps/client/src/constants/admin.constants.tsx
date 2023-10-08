@@ -44,6 +44,15 @@ export const sidebarItems: ISidebarItem[] = [
     {
         title: "Files",
         icon: <FileOutlined/>,
-        view: EAdminViews.OTHER
+        view: EAdminViews.FILES
     }
 ]
+
+export enum EThemes {
+    LIGHT = "light",
+    DARK = "dark"
+}
+
+export interface ISettingsState {
+    theme: EThemes
+}

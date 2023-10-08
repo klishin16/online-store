@@ -7,16 +7,16 @@ import { DevicesModule } from './devices/devices.module';
 import { BrandsModule } from './brands/brands.module';
 import { CategoriesModule } from './categories/categories.module';
 import { UsersModule } from './users/users.module';
-import { RolesModule } from './roles/roles.module';
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {User} from "./users/entities/user.entity";
-import {Basket} from "./baskets/entities/basket.entity";
-import {Brand} from "./brands/entities/brand.entity";
-import {Category} from "./categories/entities/category.entity";
-import {Device} from "./devices/entities/device.entity";
-import {Role} from "./roles/entities/role.entity";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { User } from "./users/entities/user.entity";
+import { Basket } from "./baskets/entities/basket.entity";
+import { Brand } from "./brands/entities/brand.entity";
+import { Category } from "./categories/entities/category.entity";
+import { Device } from "./devices/entities/device.entity";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { FilesModule } from './files/files.module';
 import * as Joi from 'joi';
+import { MulterModule } from "@nestjs/platform-express";
 
 const entity_modules = [
   BasketsModule,
@@ -24,7 +24,7 @@ const entity_modules = [
   BrandsModule,
   CategoriesModule,
   UsersModule,
-  RolesModule
+  FilesModule
 ]
 
 @Module({
@@ -53,12 +53,15 @@ const entity_modules = [
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Basket, Brand, Category, Device, Role, User],
+        entities: [Basket, Brand, Category, Device, User],
         synchronize: true,
-        ssl: true
+        ssl: configService.get('NODE_ENV') === 'production'
       }),
       inject: [ConfigService]
     }),
+    MulterModule.register({
+      dest: './uploads',
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
