@@ -5,11 +5,13 @@ import { Badge, Button, Card } from "antd";
 import styled from "@emotion/styled";
 import { LoginOutlined } from '@ant-design/icons';
 import Title from "antd/es/typography/Title";
-import { useAuthSession, useTypedSelector } from "@/hooks";
+import { useAppDispatch, useAuthSession, useTypedSelector } from "@/hooks";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ERoutes } from "@/constants";
 import { EUserRoles } from "@/models";
+import { authActions } from "@/redux/features/auth.slice";
+import { useBasket } from "@/hooks/useBasket";
 
 
 // const AppLogo = styled.div`
@@ -32,11 +34,13 @@ const HeaderLinksWrapper = styled.div`
 
 const AppHeader = () => {
     const router = useRouter();
+    const dispatch = useAppDispatch();
     const [user] = useAuthSession();
-    const { purchases } = useTypedSelector(state => state.basket)
+    const { id } = useBasket();
+    const { purchases } = useTypedSelector(state => state.basket);
 
     const logout = () => {
-
+        dispatch(authActions.logout())
     }
 
     const authLinks = user ?
@@ -71,7 +75,7 @@ const AppHeader = () => {
                 {/*<AppLogo/>*/ }
                 <HeaderLinksWrapper>
                     <div style={ { padding: '0 50px', display: "flex" } }>
-                        <Link href={ ERoutes.INDEX }><Title level={ 3 } style={ { marginBottom: 0 } }>REACT
+                        <Link href={ ERoutes.DEVICES }><Title level={ 3 } style={ { marginBottom: 0 } }>REACT
                             SHOP</Title></Link>
                     </div>
                     <div style={ { display: 'flex' } }>

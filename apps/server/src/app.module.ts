@@ -17,6 +17,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { FilesModule } from './files/files.module';
 import * as Joi from 'joi';
 import { MulterModule } from "@nestjs/platform-express";
+import { Purchase } from "./baskets/entities/purchase.entity";
 
 const entity_modules = [
   BasketsModule,
@@ -53,7 +54,7 @@ const entity_modules = [
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Basket, Brand, Category, Device, User],
+        entities: [Basket, Brand, Category, Device, User, Purchase],
         synchronize: true,
         ssl: configService.get('NODE_ENV') === 'production'
       }),

@@ -1,38 +1,55 @@
 import axios, { AxiosResponse } from "axios";
 import { BACKEND_URL } from "@/constants";
 import { RequestBuilder } from "@/functions";
-import { IBasket, IDevice } from "@/models";
+import {
+    IBasket,
+    IBasketAddDevicePayload,
+    IBasketCreationPayload,
+    IBasketRemoveDevicePayload,
+    IDevice
+} from "@/models";
 import { EHttpMethods } from "@/hooks";
 
-export class BasketService {
-    static async getBasket(basketId: number): Promise<AxiosResponse<IBasket>> {
-        const rb = new RequestBuilder(BACKEND_URL + `/baskets/${ basketId }`, EHttpMethods.GET)
-        // .includeToken(token)
 
-        return axios(rb.build())
-    }
+const fetch = async (token: string, basket_id: number): Promise<IBasket> => {
+    return axios.get<IBasket>(BACKEND_URL + 'baskets/' + basket_id, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).then((response) => response.data);
+}
 
-    static async createBasket(userId: number): Promise<AxiosResponse<IBasket>> {
-        const rb = new RequestBuilder(BACKEND_URL + '/baskets/', EHttpMethods.POST, { userId })
+const create = async (token: string, payload: IBasketCreationPayload) => {
+    return axios.post<IBasket>(BACKEND_URL + 'baskets', payload, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).then((response) => response.data);
+}
 
-        return axios(rb.build())
-    }
+const addDevice = async (token: string, payload: IBasketAddDevicePayload) => {
+    return axios.post(BACKEND_URL + 'baskets/add-device', payload, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).then((response) => response.data);
+}
 
-    static async addDevice(basketId: number, deviceId: number): Promise<AxiosResponse<IDevice[]>> {
-        const rb = new RequestBuilder(
-            BACKEND_URL + '/baskets/add-device',
-            EHttpMethods.POST,
-            { basketId, deviceId })
+const removeDevice = async (token: string, payload: IBasketRemoveDevicePayload) => {
+    return axios.post(BACKEND_URL + 'baskets/remove-device', payload, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).then((response) => response.data);
+}
 
-        return axios(rb.build())
-    }
-
-    static async removeDevice(basketId: number, deviceId: number): Promise<AxiosResponse<IDevice[]>> {
-        const rb = new RequestBuilder(
-            BACKEND_URL + '/baskets/remove-device',
-            EHttpMethods.POST,
-            { basketId, deviceId })
-
-        return axios(rb.build())
-    }
+export const BasketService = {
+    fetch,
+    create,
+    addDevice,
+    removeDevice
 }

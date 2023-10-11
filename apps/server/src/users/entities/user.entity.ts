@@ -1,4 +1,4 @@
-import {Column, Entity, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {Device} from "../../devices/entities/device.entity";
 import {Basket} from "../../baskets/entities/basket.entity";
@@ -43,6 +43,10 @@ export class User {
     @JoinTable()
     favorite_devices: Device[];
 
+    @Column({ type: "int", nullable: true })
+    basketId: number;
+
+    @JoinColumn({ name: 'basketId' })
     @OneToOne(() => Basket)
     basket: Basket
 }

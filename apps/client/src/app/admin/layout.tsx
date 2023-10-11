@@ -1,26 +1,13 @@
 'use client'
 import React, { useState } from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-// import AdminSettings from "../components/admin/AdminSettings";
-// import AdminUsersListView from "../components/admin/users/AdminUsersListView";
-// import StatisticView from "../components/admin/StatisticView";
-// import { useActions } from "../hooks/useActions";
-// import { RouteNames } from "../routes/routerPaths";
-// import { IBreadcrumbRoute } from "../components/admin/AdminViewHeader";
+import { Layout, Menu, theme } from 'antd';
 import styled from "@emotion/styled";
 import { useTypedSelector } from "@/hooks";
 import Link from "next/link";
 import { sidebarItems } from "@/constants";
 import { Content } from "antd/es/layout/layout";
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
 
 const { Header, Footer, Sider } = Layout;
-
-const AdminPageHeader = styled(Header)`
-  z-index: 1;
-  padding: 0;
-  box-shadow: rgba(0, 21, 41, 0.12) 0 1px 4px 0
-`
 
 const Logo = styled.div`
   height: 32px;
@@ -31,10 +18,6 @@ const Logo = styled.div`
 
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    const logout = () => {
-
-    }
-
     const {
         token: { colorBgContainer },
     } = theme.useToken();

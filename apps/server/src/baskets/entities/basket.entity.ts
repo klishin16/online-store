@@ -1,19 +1,15 @@
-import {Column, Entity, JoinColumn, ManyToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Device} from "../../devices/entities/device.entity";
-import {User} from "../../users/entities/user.entity";
+import { Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "../../users/entities/user.entity";
+import { Purchase } from "./purchase.entity";
 
 @Entity()
 export class Basket {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: "int", nullable: true })
-    userId: number;
-
     @OneToOne(() => User)
-    @JoinColumn({ name: "userId" })
     user: User
 
-    @ManyToMany(() => Device)
-    devices: Device[];
+    @OneToMany(() => Purchase, purchase => purchase.basket)
+    purchases: Purchase[];
 }

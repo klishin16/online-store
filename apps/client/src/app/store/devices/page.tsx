@@ -1,11 +1,19 @@
 'use client'
 import React, { useEffect } from 'react';
-import { Button, Image, Row, Spin, Typography } from "antd";
+import { Button, Col, Image, Row, Space, Spin, Typography } from "antd";
 import { useAppDispatch, useTypedSelector } from "@/hooks";
 import styled from "@emotion/styled";
 import { devicesActions } from "@/redux/features/devices.slice";
 import { BACKEND_URL, TOKEN_KEY } from "@/constants";
 import DevicesFilter from "@/app/components/devices/devices-filter";
+import Text from "antd/es/typography/Text";
+import { router } from "next/client";
+import { usePathname, useRouter } from "next/navigation";
+import { useBasket } from "@/hooks/useBasket";
+import { basketActions } from "@/redux/features/basket.slice";
+import { IDevice } from "@/models";
+import CountPicker from "@/app/components/count-picker";
+import DeviceCard from "@/app/components/devices/device-card";
 
 
 const DevicesPageContainer = styled("div")`
@@ -26,73 +34,22 @@ const DeviceCardsContainer = styled.div`
   max-width: 80%;
   padding: 14px;
   border-radius: 8px;
-  
+
   display: grid;
   grid-gap: 25px;
   grid-template-columns: repeat(auto-fit, 230px);
+  grid-template-rows: repeat(7, auto);
   justify-items: center;
-  
+
   height: 100%;
   overflow-y: auto;
-`
-const DeviceCard = styled.div`
-  width: 100%;
-  
-  padding: 12px;
-  background-color: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 20px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  margin: 5px;
-  position: relative;
 `
 
 const { Title } = Typography
 
 const DevicesPage = () => {
-    const { devices, isLoading } = useTypedSelector(state => state.devices);
     const dispatch = useAppDispatch();
-
-    const addDeviceToBasket = (deviceId: number) => {
-        // if (!basket) await basketActions.loadBasket(user);
-        // addDevice(basket?.id!, deviceId)
-    }
-
-    const devicesCards = devices.map(device => {
-        return (
-            <DeviceCard key={device.id}>
-                <Image
-                    width={ '100%' }
-                    src={ BACKEND_URL + 'files/' + device.image_url }
-                />
-                <Title level={4}>
-                    { device.name }
-                </Title>
-
-                <Title level={5} style={{ margin: 0, marginBottom: 8 }}>
-                    Brand: { device.brand?.name ?? 'Not defined' }
-                </Title>
-
-                <Row style={{ gap: '12px' }}>
-                    <Button type={ "primary" }>
-                        { `Price: ${ device.price } RUB` }
-                    </Button>
-                    {/*    style={ {*/ }
-                    {/*    background: AppColors.GREEN,*/ }
-                    {/*    borderColor: AppColors.GREEN*/ }
-                    {/*} }*/ }
-
-                    <Button
-                        onClick={ () => addDeviceToBasket(device.id!) }
-                        loading={ isLoading }
-                    >
-                        Buy
-                    </Button>
-                </Row>
-            </DeviceCard>
-        )
-    })
+    const { devices, isLoading } = useTypedSelector(state => state.devices);
 
     useEffect(() => {
         const token = localStorage.getItem(TOKEN_KEY);
@@ -101,6 +58,8 @@ const DevicesPage = () => {
         }
         dispatch(devicesActions.fetchDevices(token));
     }, [])
+
+    const devicesCards = devices.map(device => <DeviceCard key={ device.id } device={device}></DeviceCard>)
 
     if (isLoading) {
         console.log('here')
@@ -113,7 +72,7 @@ const DevicesPage = () => {
 
     return (
         <DevicesPageContainer className='devices-page-container'>
-            <DevicesFilter />
+            <DevicesFilter/>
 
             <DeviceCardsContainer className='devices-cards-container'>
                 { devicesCards }

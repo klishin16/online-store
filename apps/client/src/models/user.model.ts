@@ -11,9 +11,8 @@ export interface IUser {
     id: number
     email: string;
     password: string;
-    basket?: IBasket
+    basketId: number | null;
     role: EUserRoles
-//    TODO определиться с полями (см ниже)
 }
 
 export interface LoginDTO {

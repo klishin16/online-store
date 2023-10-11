@@ -4,6 +4,7 @@ import {ICategory} from "./category.model";
 export interface IDevice {
     id: number;
     name: string;
+    description: string;
     price: number;
     sale: number | null;
     availability: number;

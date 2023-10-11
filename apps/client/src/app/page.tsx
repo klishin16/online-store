@@ -1,12 +1,17 @@
 'use client'
-import Link from "next/link";
 import { useAuthSession } from "@/hooks";
 import { Layout } from "antd";
-import AppHeader from "@/app/components/header";
-import { Footer } from "antd/lib/layout/layout";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ERoutes } from "@/constants";
 
 export default function Home() {
     const user = useAuthSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        router.push(ERoutes.DEVICES);
+    }, [])
 
     return (
         <Layout>

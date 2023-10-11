@@ -75,6 +75,17 @@ const authSlice = createSlice({
             ...state,
             user: action.payload
         }),
+        setToken: (state, action: PayloadAction<string>) => ({
+            ...state,
+            token: action.payload
+        }),
+        logout: (state) => {
+            localStorage.removeItem(TOKEN_KEY);
+            return {
+                ...state,
+                user: null
+            }
+        }
     },
     extraReducers: builder => {
         builder

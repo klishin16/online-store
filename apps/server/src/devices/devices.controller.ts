@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
+import { WithFiltersDto } from "./dto/with-filters.dto";
 
 @Controller('devices')
 export class DevicesController {
@@ -30,5 +31,10 @@ export class DevicesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.devicesService.remove(+id);
+  }
+
+  @Post('with-filters')
+  findWithFilters(@Body() withFiltersDto: WithFiltersDto) {
+    return this.devicesService.findWithFilters(withFiltersDto);
   }
 }

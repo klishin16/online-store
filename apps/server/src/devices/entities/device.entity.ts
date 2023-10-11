@@ -1,7 +1,17 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn
+} from "typeorm";
 import {Brand} from "../../brands/entities/brand.entity";
 import {Category} from "../../categories/entities/category.entity";
 import {User} from "../../users/entities/user.entity";
+import { Purchase } from "../../baskets/entities/purchase.entity";
 
 @Entity()
 export class Device {
@@ -38,6 +48,6 @@ export class Device {
     @JoinColumn({ name: "categoryId" })
     category: Category;
 
-    // @ManyToOne
-    // baskets: Basket[]; //TODO промежуточная таблица
+    @OneToMany(() => Purchase, purchase => purchase.device)
+    purchases: Purchase[];
 }

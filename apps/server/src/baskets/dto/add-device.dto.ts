@@ -3,11 +3,13 @@ import {IsNumber} from "class-validator";
 
 export class AddDeviceDto {
     @ApiProperty({example: '1', description: 'Id товара'})
-    @IsNumber({}, {message: "Должно быть числом"})
-    readonly device_id: number;
-
+    @IsNumber({}, {message: "DeviceId должно быть числом"})
+    readonly deviceId: number;
 
     @ApiProperty({example: '4', description: 'Id корзины'})
-    @IsNumber({}, {message: "Должно быть числом"})
-    readonly basket_id: number;
+    @IsNumber({}, {message: "BasketId должно быть числом"})
+    readonly basketId: number;
+
+    @IsNumber()
+    readonly amount: number;
 }

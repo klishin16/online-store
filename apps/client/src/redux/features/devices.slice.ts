@@ -3,6 +3,7 @@ import { IDevicesState } from "@/types/devices.types";
 import { addNotification } from "@/redux/features/notifications.slice";
 import { DevicesService } from "@/services";
 import { errorHandler } from "@/functions/error-handler";
+import { IDevicesFilters } from "@/app/components/devices/devices-filter";
 
 const initialState: IDevicesState = {
     devices: [],
@@ -25,7 +26,32 @@ const fetchDevices = createAsyncThunk(
         } catch (error) {
             thunkAPI.dispatch(
                 addNotification({
-                    title: 'Basket loading error',
+                    title: 'Devices loading error',
+                    message: errorHandler(error),
+                    type: 'error'
+                })
+            );
+            return thunkAPI.rejectWithValue('some value (-_-)');
+        }
+    })
+
+const fetchDevicesWithFilter = createAsyncThunk(
+    "devices/loadWithFilter",
+    async (filters: IDevicesFilters,thunkAPI) => {
+        console.log('loadDevices')
+        try {
+            const devices = await DevicesService.fetchWithFilters(filters);
+            console.log('devices', devices)
+            thunkAPI.dispatch(addNotification({
+                title: 'Devices',
+                message: 'Devices loaded successfully',
+                type: 'success',
+            }));
+            return devices;
+        } catch (error) {
+            thunkAPI.dispatch(
+                addNotification({
+                    title: 'Devices loading error',
                     message: errorHandler(error),
                     type: 'error'
                 })
@@ -78,11 +104,17 @@ const devicesSlice = createSlice({
                 // Login failed
                 state.isLoading = false;
             })
+            .addCase(fetchDevicesWithFilter.fulfilled, (state, action) => {
+                // Devices fetched successfully
+                console.log('got', action)
+                state.devices = action.payload;
+            })
     }
 })
 
 export const devicesReducer = devicesSlice.reducer;
 export const devicesActions = {
     fetchDevices,
+    fetchDevicesWithFilter,
     createDevice
 }
