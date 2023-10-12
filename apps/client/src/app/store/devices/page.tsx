@@ -45,18 +45,13 @@ const DeviceCardsContainer = styled.div`
   overflow-y: auto;
 `
 
-const { Title } = Typography
-
 const DevicesPage = () => {
     const dispatch = useAppDispatch();
     const { devices, isLoading } = useTypedSelector(state => state.devices);
 
     useEffect(() => {
         const token = localStorage.getItem(TOKEN_KEY);
-        if (!token) {
-            return;
-        }
-        dispatch(devicesActions.fetchDevices(token));
+        dispatch(devicesActions.fetchDevices(token ?? '')); // TODO временно
     }, [])
 
     const devicesCards = devices.map(device => <DeviceCard key={ device.id } device={device}></DeviceCard>)
